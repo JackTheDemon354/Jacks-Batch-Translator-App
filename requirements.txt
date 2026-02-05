@@ -1,0 +1,5 @@
+flask
+pytesseract
+pillow
+deep-translator
+gunicorn
