@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Translator App</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to CSS stylesheet -->
+</head>
+<body>
+    <div class="container">
+        <h1>Batch Translator</h1>
+
+        <!-- File Upload Section -->
+        <div class="file-upload">
+            <h2>Image/PDF Translation</h2>
+            <input type="file" id="fileInput" multiple accept=".png, .jpg, .jpeg, .pdf"> <!-- File input for multiple files -->
+            <label for="fileInput" class="upload-button">Choose Files (Max 50)</label> <!-- Custom upload button -->
+            <div id="fileList"></div> <!-- Display selected files -->
+            <button onclick="processFiles()">Translate Images/PDFs</button> <!-- Button to trigger image/PDF translation -->
+        </div>
+
+        <!-- Text Translation Section -->
+        <div class="text-translation">
+            <h2>Text Translation</h2>
+            <textarea id="inputText" placeholder="Enter text to translate"></textarea> <!-- Text input area -->
+            <select id="sourceLanguage">
+                <option value="auto">Auto</option> <!-- Auto-detect language option -->
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <!-- Add more languages as needed -->
+            </select>
+            <select id="targetLanguage">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <!-- Add more languages as needed -->
+            </select>
+            <button onclick="translateText()">Translate Text</button> <!-- Button to trigger text translation -->
+            <div id="outputText"></div> <!-- Display translated text -->
+        </div>
+    </div>
+    <script src="script.js"></script> <!-- Link to JavaScript file -->
+</body>
+</html>
