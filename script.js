@@ -18,20 +18,49 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
     }
 });
 
-// Function to process files (Placeholder for actual translation logic)
-function processFiles() {
+// Function to process files (Now sends files to the server)
+async function processFiles() {
     const files = document.getElementById('fileInput').files;
+    const targetLanguage = document.getElementById('targetLanguage').value;
+
     if (files.length === 0) {
         alert('Please select files to translate.');
         return;
     }
 
-    // Placeholder: Add actual image/PDF translation logic here
-    alert(`Processing ${files.length} files for translation.`);
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+    }
+    formData.append('targetLanguage', targetLanguage); // Send target language
+
+    try {
+        const response = await fetch('/translate_files', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Display Translations (Adapt this part based on how you want to show the results)
+        let output = '';
+        for (const filename in data) {
+            output += `<p><b>${filename}:</b> ${data[filename]}</p>`;
+        }
+        document.getElementById('outputText').innerHTML = output;
+
+    } catch (error) {
+        console.error('Error processing files:', error);
+        alert('Error processing files. See console for details.');
+    }
 }
 
-// Function to translate text (Placeholder for actual translation logic)
-function translateText() {
+// Function to translate text (Now sends text to the server)
+async function translateText() {
     const inputText = document.getElementById('inputText').value;
     const sourceLanguage = document.getElementById('sourceLanguage').value;
     const targetLanguage = document.getElementById('targetLanguage').value;
@@ -41,7 +70,26 @@ function translateText() {
         return;
     }
 
-    // Placeholder: Add actual text translation logic here using an API
-    const translatedText = `Translated from ${sourceLanguage} to ${targetLanguage}: ${inputText}`;
-    document.getElementById('outputText').textContent = translatedText;
+    const formData = new FormData();
+    formData.append('text', inputText);
+    formData.append('sourceLanguage', sourceLanguage);
+    formData.append('targetLanguage', targetLanguage);
+
+    try {
+        const response = await fetch('/translate_text', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        document.getElementById('outputText').textContent = data.translated_text;
+
+    } catch (error) {
+        console.error('Error translating text:', error);
+        alert('Error translating text. See console for details.');
+    }
 }
